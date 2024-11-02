@@ -1,5 +1,7 @@
 # Deploy Authentik
 
+Part of the [Komodo Hub collection](https://github.com/mbecker20/komodo_hub)
+
 Runs Authentik using their default setup:
 https://docs.goauthentik.io/docs/install-config/install/docker-compose
 
