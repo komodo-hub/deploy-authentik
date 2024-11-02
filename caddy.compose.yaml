@@ -1,0 +1,19 @@
+services:
+
+  caddy:
+    image: caddy:${CADDY_TAG:-latest}
+    command: caddy reverse-proxy --from ${AUTHENTIK_DOMAIN:?AUTHENTIK_DOMAIN required in env for caddy deploy} --to server:3000
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:
