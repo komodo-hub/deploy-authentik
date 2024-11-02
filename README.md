@@ -18,6 +18,10 @@ environment = """
   AUTHENTIK_IMAGE = ghcr.io/goauthentik/server
   AUTHENTIK_TAG = latest
   AUTHENTIK_SECRET_KEY = [[AUTHENTIK_SECRET_KEY]]
+	
+	COMPOSE_PORT_HTTP = 9000
+	COMPOSE_PORT_HTTPS = 9443
+	
   PG_PASS = [[AUTHENTIK_PG_PASS]]
   PG_USER = authentik
   PG_DB = authentik
