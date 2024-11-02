@@ -15,16 +15,16 @@ file_paths = [
   # "caddy.compose.yaml" # Deploy https proxy
 ]
 environment = """
-  AUTHENTIK_IMAGE=ghcr.io/goauthentik/server
-  AUTHENTIK_TAG=latest
-  AUTHENTIK_SECRET_KEY=[[AUTHENTIK_SECRET_KEY]]
-  PG_PASS=[[AUTHENTIK_PG_PASS]]
-  PG_USER=authentik
-  PG_DB=authentik
+  AUTHENTIK_IMAGE = ghcr.io/goauthentik/server
+  AUTHENTIK_TAG = latest
+  AUTHENTIK_SECRET_KEY = [[AUTHENTIK_SECRET_KEY]]
+  PG_PASS = [[AUTHENTIK_PG_PASS]]
+  PG_USER = authentik
+  PG_DB = authentik
 
-  CADDY_TAG=latest
+  CADDY_TAG = latest
   # Required for Caddy deploy
-  AUTHENTIK_DOMAIN=authentik.example.com
+  AUTHENTIK_DOMAIN = authentik.example.com
 """
 
 [[variable]]
