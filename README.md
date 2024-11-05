@@ -1,6 +1,6 @@
 # Deploy Authentik
 
-Part of the [Komodo Hub collection.](https://github.com/komodo-hub/komodo-hub)
+Part of the [*Komodo Hub* collection.](https://github.com/komodo-hub/komodo-hub)
 
 Runs Authentik using their default setup.
 
