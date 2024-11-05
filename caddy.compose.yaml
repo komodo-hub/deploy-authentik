@@ -2,7 +2,7 @@ services:
 
   caddy:
     image: caddy:${CADDY_TAG:-latest}
-    command: caddy reverse-proxy --from ${AUTHENTIK_DOMAIN:?AUTHENTIK_DOMAIN required in env for caddy deploy} --to server:3000
+    command: caddy reverse-proxy --from ${AUTHENTIK_DOMAIN:?AUTHENTIK_DOMAIN required in env for caddy deploy} --to server:${COMPOSE_PORT_HTTP:-9000}
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
