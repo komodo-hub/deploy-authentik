@@ -31,10 +31,9 @@ environment = """
   PG_USER = authentik
   PG_DB = authentik
 
-  ## Optional. Deploy caddy proxying to AUTHENTIK_DOMAIN
-  CADDY_TAG = latest
-  # Required for Caddy deploy
+  ## Required for Caddy deploy
   AUTHENTIK_DOMAIN = authentik.example.com
+  CADDY_TAG = latest
 """
 
 [[variable]]
