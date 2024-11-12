@@ -2,7 +2,9 @@ services:
 
   postgresql:
     image: docker.io/library/postgres:16-alpine
-    restart: unless-stopped
+    restart: ${RESTART:-unless-stopped}
+    logging:
+      driver: ${LOGGING_DRIVER:-local}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
       start_period: 20s
@@ -15,13 +17,14 @@ services:
       POSTGRES_PASSWORD: ${PG_PASS:?database password required}
       POSTGRES_USER: ${PG_USER:-authentik}
       POSTGRES_DB: ${PG_DB:-authentik}
-    env_file:
-      - .env
+    env_file: .env
 
   redis:
     image: docker.io/library/redis:alpine
     command: --save 60 1 --loglevel warning
-    restart: unless-stopped
+    restart: ${RESTART:-unless-stopped}
+    logging:
+      driver: ${LOGGING_DRIVER:-local}
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
       start_period: 20s
@@ -32,9 +35,11 @@ services:
       - redis:/data
 
   server:
-    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-latest}
-    restart: unless-stopped
+    image: ghcr.io/goauthentik/server:${AUTHENTIK_TAG:-latest}
     command: server
+    restart: ${RESTART:-unless-stopped}
+    logging:
+      driver: ${LOGGING_DRIVER:-local}
     environment:
       AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_POSTGRESQL__HOST: postgresql
@@ -42,10 +47,9 @@ services:
       AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
     volumes:
-      - ./media:/media
-      - ./custom-templates:/templates
-    env_file:
-      - .env
+      - ${MEDIA_PATH:-./media}:/media
+      - ${TEMPLATE_PATH:-./custom-templates}:/templates
+    env_file: .env
     ports:
       - "${COMPOSE_PORT_HTTP:-9000}:9000"
       - "${COMPOSE_PORT_HTTPS:-9443}:9443"
@@ -54,9 +58,11 @@ services:
       - redis
 
   worker:
-    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-latest}
-    restart: unless-stopped
+    image: ghcr.io/goauthentik/server:${AUTHENTIK_TAG:-latest}
     command: worker
+    restart: ${RESTART:-unless-stopped}
+    logging:
+      driver: ${LOGGING_DRIVER:-local}
     environment:
       AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_POSTGRESQL__HOST: postgresql
@@ -72,17 +78,14 @@ services:
     user: root
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./media:/media
-      - ./certs:/certs
-      - ./custom-templates:/templates
-    env_file:
-      - .env
+      - ${MEDIA_PATH:-./media}:/media
+      - ${CERTS_PATH:-./certs}:/certs
+      - ${TEMPLATE_PATH:-./custom-templates}:/templates
+    env_file: .env
     depends_on:
       - postgresql
       - redis
 
 volumes:
   database:
-    driver: local
   redis:
-    driver: local
