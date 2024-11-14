@@ -14,7 +14,7 @@ name = "authentik"
 [stack.config]
 repo = "komodo-hub/deploy-authentik"
 environment = """
-  ## https://github.com/goauthentik/authentik/pkgs/container/server/versions
+  ## https://github.com/goauthentik/authentik/pkgs/container/server/versions?filters%5Bversion_type%5D=tagged
   AUTHENTIK_TAG = latest
   AUTHENTIK_SECRET_KEY = [[AUTHENTIK_SECRET_KEY]]
 	
